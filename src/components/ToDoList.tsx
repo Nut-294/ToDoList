@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ToDoItem from "./ToDoItem";
-
+import { MdOutlineAddBox } from "react-icons/md";
 type Todo = {
   id: number;
   text: string;
@@ -40,11 +40,10 @@ const ToDoList = () => {
           value={input}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-
-          className="flex-grow  border-2 border-gray-300 rounded px-3 mr-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="flex-grow text-xl border-2 border-gray-300 rounded px-3 mr-2 focus:outline-none focus:ring-2 focus:ring-green-500"
         />
-        <button onClick={addTodo} className="text-white text-xl bg-green-600 rounded-md p-4 hover:bg-green-700 transition">
-          Add
+        <button onClick={addTodo} className="text-white text-4xl bg-green-600 rounded-md p-1 hover:bg-green-700 transition">
+        <MdOutlineAddBox />
         </button>
       </div>
 
