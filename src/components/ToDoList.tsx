@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ToDoItem from "./ToDoItem";
 
 type Todo = {
   id: number;
@@ -7,37 +8,50 @@ type Todo = {
 
 const ToDoList = () => {
   const [input, setInput] = useState("");
-  const [todo, setTodo] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) =>{
+    if (e.key === "Enter"){
+      addTodo()
+    }
+  }
+
   const addTodo = () => {
     const newTodo = {
       id: Date.now(),
       text: input,
     };
-    console.log("newTodo", newTodo);
-    setTodo((prevtodo) => [newTodo, ...prevtodo]);
+    setTodos((prevtodo) => [newTodo, ...prevtodo]);
     setInput("");
   };
   // console.log("input", input);
-  console.log("todo", todo);
+  console.log("todos", todos);
   return (
-    <div className="max-w-md mx-auto bg-gray-100">
-      <h1 className="text-3xl m-auto font-bold text-center">TodoList</h1>
-      <div className="flex">
+    <div className="max-w-md mx-auto bg-white rounded p-4 shadow">
+      <h1 className="text-3xl mb-4 font-bold text-center">TodoList</h1>
+      <div className="flex mb-4">
         <input
           type="text"
           placeholder="Add Todo"
+          value={input}
           onChange={handleChange}
-          className="flex-grow "
+          onKeyDown={handleKeyDown}
+
+          className="flex-grow  border-2 border-gray-300 rounded px-3 mr-2 focus:outline-none focus:ring-2 focus:ring-green-500"
         />
-        <button onClick={addTodo} className="">
+        <button onClick={addTodo} className="text-white text-xl bg-green-600 rounded-md p-4 hover:bg-green-700 transition">
           Add
         </button>
       </div>
-      <div className="mt-40">{input}</div>
+
+      {todos.map((todo,id)=>{
+        return    <ToDoItem key={id} id={todo.id} text={todo.text} />
+      })}
+    
     </div>
   );
 };
