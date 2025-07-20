@@ -4,6 +4,7 @@ import { MdOutlineAddBox } from "react-icons/md";
 type Todo = {
   id: number;
   text: string;
+  toggle: boolean
 };
 
 const ToDoList = () => {
@@ -14,16 +15,17 @@ const ToDoList = () => {
     setInput(e.target.value);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) =>{
-    if (e.key === "Enter"){
-      addTodo()
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      addTodo();
     }
-  }
+  };
 
   const addTodo = () => {
     const newTodo = {
       id: Date.now(),
       text: input,
+      toggle: true
     };
     setTodos((prevtodo) => [newTodo, ...prevtodo]);
     setInput("");
@@ -42,15 +44,17 @@ const ToDoList = () => {
           onKeyDown={handleKeyDown}
           className="flex-grow text-xl border-2 border-gray-300 rounded px-3 mr-2 focus:outline-none focus:ring-2 focus:ring-green-500"
         />
-        <button onClick={addTodo} className="text-white text-4xl bg-green-600 rounded-md p-1 hover:bg-green-700 transition">
-        <MdOutlineAddBox />
+        <button
+          onClick={addTodo}
+          className="text-white text-4xl bg-green-600 rounded-md p-1 hover:bg-green-700 transition"
+        >
+          <MdOutlineAddBox />
         </button>
       </div>
 
-      {todos.map((todo,id)=>{
-        return    <ToDoItem key={id} id={todo.id} text={todo.text} />
+      {todos.map((todo, id) => {
+        return <ToDoItem key={id} id={todo.id} text={todo.text} />;
       })}
-    
     </div>
   );
 };
