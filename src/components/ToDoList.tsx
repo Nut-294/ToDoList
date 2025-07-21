@@ -32,13 +32,23 @@ const ToDoList = () => {
     setInput("");
   };
 
-  const toggleItem = (id:number) => {
+  const toggleItem = (id: number) => {
     // prevtodos[ ] todo{ }
     setTodos((prevtodos) =>
       prevtodos.map((todo) => {
         if (todo.id === id) {
           return { ...todo, completed: !todo.completed };
         } else {
+          return todo;
+        }
+      })
+    );
+  };
+
+  const deleteItem = (id: number) => {
+    setTodos((prevtodos) =>
+      prevtodos.filter((todo) => {
+        if (todo.id != id) {
           return todo;
         }
       })
@@ -69,7 +79,14 @@ const ToDoList = () => {
 
       {todos.map((todo, id) => {
         return (
-          <ToDoItem key={id} id={todo.id} text={todo.text} completed={todo.completed} toggleItem={toggleItem}/>
+          <ToDoItem
+            key={id}
+            id={todo.id}
+            text={todo.text}
+            completed={todo.completed}
+            toggleItem={toggleItem}
+            deleteItem={deleteItem}
+          />
         );
       })}
     </div>
