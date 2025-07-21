@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import ToDoItem from "./ToDoItem";
 import { MdOutlineAddBox } from "react-icons/md";
 
@@ -11,6 +11,25 @@ type Todo = {
 const ToDoList = () => {
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState<Todo[]>([]);
+
+  const isFirstLoad = useRef(true); 
+
+  // โหลดจาก localStorage รอบแรก
+  useEffect(() => {
+    const stored = localStorage.getItem("todos");
+    if (stored) {
+      setTodos(JSON.parse(stored));
+    }
+  }, []);
+
+  // บันทึกลง localStorage (ยกเว้นรอบแรก)
+  useEffect(() => {
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      return; //  ข้าม setItem รอบแรก
+    }
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
