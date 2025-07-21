@@ -1,10 +1,11 @@
 import { useState } from "react";
 import ToDoItem from "./ToDoItem";
 import { MdOutlineAddBox } from "react-icons/md";
+
 type Todo = {
   id: number;
   text: string;
-  toggle: boolean
+  completed: boolean; //ทำแล้วหรือยัง
 };
 
 const ToDoList = () => {
@@ -25,13 +26,27 @@ const ToDoList = () => {
     const newTodo = {
       id: Date.now(),
       text: input,
-      toggle: true
+      completed: false,
     };
     setTodos((prevtodo) => [newTodo, ...prevtodo]);
     setInput("");
   };
+
+  const toggleItem = (id:number) => {
+    // prevtodos[ ] todo{ }
+    setTodos((prevtodos) =>
+      prevtodos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, completed: !todo.completed };
+        } else {
+          return todo;
+        }
+      })
+    );
+  };
+
   // console.log("input", input);
-  console.log("todos", todos);
+  // console.log("todos", todos);
   return (
     <div className="max-w-md mx-auto bg-white rounded p-4 shadow">
       <h1 className="text-3xl mb-4 font-bold text-center">TodoList</h1>
@@ -53,7 +68,9 @@ const ToDoList = () => {
       </div>
 
       {todos.map((todo, id) => {
-        return <ToDoItem key={id} id={todo.id} text={todo.text} />;
+        return (
+          <ToDoItem key={id} id={todo.id} text={todo.text} completed={todo.completed} toggleItem={toggleItem}/>
+        );
       })}
     </div>
   );
